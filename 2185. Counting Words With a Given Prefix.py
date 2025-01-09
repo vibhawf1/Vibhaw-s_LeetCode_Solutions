@@ -1,11 +1,7 @@
-class Solution {
-    public int prefixCount(String[] words, String pref) {
-        int count =0;
-        for(String word : words){
-            if(word.indexOf(pref) == 0){
-                count+=1;
-            }
-        }
-        return count;
-    }
-}
+class Solution:
+    def prefixCount(self, words, pref):
+        count = 0
+        for word in words:
+            if word.find(pref) == 0:
+                count += 1
+        return count
