@@ -1,19 +1,17 @@
 class Solution:
-    def xorAllNums(self, nums1: List[int], nums2: List[int]) -> int:
-        xor1 = 0  # XOR of all elements in nums1
-        xor2 = 0  # XOR of all elements in nums2
-
-        # Compute XOR for nums1
-        for num in nums1:
-            xor1 ^= num
-            
-        # Compute XOR for nums2
-        for num in nums2:
-            xor2 ^= num
-
-        # Determine final result based on parity of lengths
-        result = (xor2 if len(nums1) % 2 != 0 else 0) ^ (
-            xor1 if len(nums2) % 2 != 0 else 0
-        )
-
-        return result
+    def maximumWeight(self, intervals: List[List[int]]) -> List[int]:
+        n = len(intervals)
+        intervals = sorted((*x, i) for i, x in enumerate(intervals))
+        @cache
+        def dfs(i, k): 
+            if i == n: return 0, []
+            if k == 0: return 0, []
+            l, r, w, index = intervals[i]
+            v, a = dfs(i+1, k)
+            j = bisect_left(intervals, r+1, key = lambda x: x[0])
+            vv, aa = dfs(j, k-1)
+            aa = aa[:]
+            insort(aa, index)
+            if w+vv > v or w+vv == v and aa < a: v, a = w+vv, aa
+            return v, a
+        return dfs(0, 4)[1]
